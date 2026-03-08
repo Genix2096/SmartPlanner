@@ -1,18 +1,30 @@
-import { sql } from "drizzle-orm";
-import { pgTable, text, varchar } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, timestamp, varchar } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
+export * from "./models/auth";
 
-export const users = pgTable("users", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  username: text("username").notNull().unique(),
-  password: text("password").notNull(),
+export const tasks = pgTable("tasks", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").notNull(),
+  title: text("title").notNull(),
+  subject: text("subject").notNull(),
+  description: text("description"),
+  deadline: timestamp("deadline").notNull(),
+  priority: text("priority").notNull().default("Medium"), // Low, Medium, High
+  status: text("status").notNull().default("Pending"), // Pending, Completed
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-export const insertUserSchema = createInsertSchema(users).pick({
-  username: true,
-  password: true,
+export const insertTaskSchema = createInsertSchema(tasks).omit({ 
+  id: true, 
+  userId: true, 
+  createdAt: true 
+}).extend({
+  deadline: z.coerce.date(),
 });
 
-export type InsertUser = z.infer<typeof insertUserSchema>;
-export type User = typeof users.$inferSelect;
+export type InsertTask = z.infer<typeof insertTaskSchema>;
+export type Task = typeof tasks.$inferSelect;
+
+export type CreateTaskRequest = InsertTask;
+export type UpdateTaskRequest = Partial<InsertTask>;
