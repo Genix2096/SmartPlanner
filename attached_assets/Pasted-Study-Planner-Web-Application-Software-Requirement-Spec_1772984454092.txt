@@ -1,0 +1,374 @@
+Study Planner Web Application
+Software Requirement Specification (SRS)
+1. Project Overview
+1.1 Project Title
+
+Smart Study Planner
+
+1.2 Project Description
+
+The Smart Study Planner is a web-based application that helps students organize their study schedules, track tasks, manage deadlines, and improve productivity. The platform allows users to create study plans, set reminders for tasks, monitor progress, and visualize study statistics.
+
+1.3 Target Users
+
+College students
+
+School students
+
+Competitive exam aspirants
+
+Anyone who wants to plan study sessions effectively
+
+1.4 Goals
+
+Help students organize their study schedule
+
+Improve time management
+
+Track completed tasks and productivity
+
+Provide reminders for deadlines
+
+2. System Features
+2.1 User Authentication
+
+Users must be able to create an account and log in securely.
+
+Functions
+
+Sign up
+
+Login
+
+Logout
+
+Password reset (optional)
+
+User Data Stored
+
+Name
+
+Email
+
+Password (encrypted)
+
+2.2 Dashboard
+
+After logging in, users will see their study dashboard.
+
+Dashboard includes:
+
+Today's tasks
+
+Upcoming deadlines
+
+Weekly study plan
+
+Study progress summary
+
+Features:
+
+Quick add task
+
+Progress bar
+
+Study statistics
+
+2.3 Task Management
+
+Users should be able to create and manage study tasks.
+
+Task Fields
+
+Task title
+
+Subject
+
+Description
+
+Deadline
+
+Priority level
+
+Status (Pending / Completed)
+
+Functions
+
+Add task
+
+Edit task
+
+Delete task
+
+Mark task as completed
+
+2.4 Study Planner Calendar
+
+Users can plan studies using a calendar view.
+
+Features:
+
+Monthly calendar
+
+View tasks by date
+
+Drag and drop tasks (optional)
+
+Add tasks directly from calendar
+
+2.5 Study Progress Tracker
+
+The system should track study productivity.
+
+Metrics include:
+
+Number of completed tasks
+
+Hours studied
+
+Weekly progress
+
+Monthly productivity
+
+Visualization:
+
+Progress bars
+
+Pie charts
+
+Study streak tracker
+
+2.6 Notifications / Reminders
+
+The application should remind users about upcoming deadlines.
+
+Types of reminders:
+
+Upcoming tasks
+
+Overdue tasks
+
+Daily study reminder
+
+3. User Interface Requirements
+
+The interface should be simple and student-friendly.
+
+Design requirements:
+
+Clean minimal UI
+
+Mobile responsive design
+
+Easy navigation
+
+Light and dark mode
+
+Main UI Components:
+
+Navigation bar
+
+Dashboard cards
+
+Task list
+
+Calendar view
+
+Progress charts
+
+4. Pages Required
+4.1 Landing Page
+
+Introduction to the application
+
+Features overview
+
+Sign up / Login buttons
+
+4.2 Signup Page
+
+Users create a new account.
+
+Fields:
+
+Name
+
+Email
+
+Password
+
+4.3 Login Page
+
+Users log in to access their dashboard.
+
+Fields:
+
+Email
+
+Password
+
+4.4 Dashboard
+
+Shows:
+
+Today's tasks
+
+Upcoming deadlines
+
+Study progress
+
+4.5 Task Manager Page
+
+Users manage all their study tasks.
+
+Functions:
+
+Add task
+
+Edit task
+
+Delete task
+
+4.6 Calendar Page
+
+Calendar view of all scheduled tasks.
+
+4.7 Progress Page
+
+Displays productivity charts and statistics.
+
+4.8 Profile Page
+
+Users can update profile information.
+
+Options:
+
+Update name
+
+Change password
+
+View account details
+
+5. Technology Stack
+
+Frontend
+
+HTML
+
+CSS
+
+JavaScript
+
+React.js (preferred)
+
+Backend
+
+Node.js
+
+Express.js
+
+Database
+
+MongoDB
+
+Deployment
+
+Replit compatible hosting
+
+6. Database Design
+Users Collection
+
+Fields:
+
+user_id
+
+name
+
+email
+
+password
+
+created_at
+
+Tasks Collection
+
+Fields:
+
+task_id
+
+user_id
+
+task_title
+
+subject
+
+description
+
+deadline
+
+priority
+
+status
+
+created_at
+
+7. Functional Requirements
+
+The system must allow users to:
+
+Register an account
+
+Log in securely
+
+Create study tasks
+
+Edit tasks
+
+Delete tasks
+
+Mark tasks as completed
+
+View tasks on a calendar
+
+Track productivity
+
+Receive reminders
+
+8. Non-Functional Requirements
+
+Performance
+
+Pages should load within 2 seconds
+
+Security
+
+Password encryption
+
+Secure authentication
+
+Usability
+
+Easy to understand interface
+
+Responsive design for mobile and desktop
+
+9. Folder Structure
+
+Example project structure:
+
+study-planner/
+
+client/
+components/
+pages/
+styles/
+
+server/
+routes/
+controllers/
+models/
+
+database/
+config/
+
+README.md
