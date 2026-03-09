@@ -117,6 +117,6 @@ B.Tech Information Technology – VIT Vellore
 
 ---
 
-## 📜 License
+## 📜 Live at
 
-This project is licensed under the MIT License.
+(https://smartplanner-u1qj.onrender.com)
