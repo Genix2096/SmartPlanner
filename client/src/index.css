@@ -60,43 +60,62 @@
   }
 
   .dark {
-    --background: 222 47% 11%;
-    --foreground: 210 40% 98%;
-    
-    --card: 222 47% 11%;
-    --card-foreground: 210 40% 98%;
-    
-    --popover: 222 47% 11%;
-    --popover-foreground: 210 40% 98%;
-    
-    --primary: 230 60% 60%;
-    --primary-foreground: 222 47% 11%;
-    
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+  /* MAIN NAVY BLUE BACKGROUND */
+  --background: 222 80% 12%;
+  --foreground: 0 0% 100%;
+
+  /* WHITE CARDS */
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 0%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 0%;
+
+  /* PRIMARY BUTTON / ACCENT */
+  --primary: 230 60% 55%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 222 40% 35%;
+  --secondary-foreground: 0 0% 0%;
+
+  --muted: 222 40% 35%;
+  --muted-foreground: 0 0% 100%;
+
+  --accent: 222 40% 35%;
+  --accent-foreground: 0 0% 0%;
+
+  --destructive: 0 70% 50%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 222 40% 40%;
+  --input: 222 40% 40%;
+  --ring: 230 60% 70%;
+
+  /* SIDEBAR NAVY */
+  --sidebar-background: 222 80% 10%;
+  --sidebar-foreground: 0 0% 100%;
+  --sidebar-primary: 230 60% 55%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 222 40% 30%;
+  --sidebar-accent-foreground: 0 0% 100%;
+  --sidebar-border: 222 40% 35%;
+  --sidebar-ring: 230 60% 65%;
+  .dark input {
+  color: white !important;
   }
+
+  .dark input::placeholder {
+  color: rgba(255,255,255,0.6);
+  }
+
+  .dark textarea {
+  color: white !important;
+  }
+
+  .dark textarea::placeholder {
+  color: rgba(255,255,255,0.6);
+}
+}
 }
 
 @layer base {
@@ -106,6 +125,9 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-sans);
+  }
+  .bg-card {
+  color: hsl(var(--card-foreground));
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
@@ -123,4 +145,20 @@
   .glass-card {
     @apply bg-card/70 backdrop-blur-xl border border-white/20 shadow-xl;
   }
+}
+/* Force black text inside white cards in dark mode */
+.dark .bg-card {
+  color: black;
+}
+
+.dark .bg-card h1,
+.dark .bg-card h2,
+.dark .bg-card h3,
+.dark .bg-card h4,
+.dark .bg-card h5,
+.dark .bg-card h6,
+.dark .bg-card p,
+.dark .bg-card span,
+.dark .bg-card div {
+  color: black;
 }

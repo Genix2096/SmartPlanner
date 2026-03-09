@@ -32,10 +32,10 @@ export default function TasksPage() {
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
-  
+
   const [deleteId, setDeleteId] = useState<number | null>(null);
 
-  const filteredTasks = tasks?.filter(t => 
+  const filteredTasks = tasks?.filter(t =>
     filter === "All" ? true : t.status === filter
   ) || [];
 
@@ -50,28 +50,44 @@ export default function TasksPage() {
   };
 
   const handleToggleStatus = (task: Task) => {
-    updateTask.mutate({
-      id: task.id,
-      status: task.status === "Pending" ? "Completed" : "Pending"
-    });
-  };
+
+  // If already completed → do nothing
+  if (task.status === "Completed") {
+    return;
+  }
+
+  // Only allow Pending → Completed
+  updateTask.mutate({
+    id: task.id,
+    status: "Completed"
+  });
+
+};
 
   if (isLoading) {
-    return <div className="p-8 text-muted-foreground">Loading tasks...</div>;
+    return <div className="p-8 text-white">Loading tasks...</div>;
   }
 
   return (
-    <div className="p-6 md:p-8 max-w-7xl mx-auto space-y-8 animate-in fade-in duration-500">
+    <div className="p-6 md:p-8 max-w-7xl mx-auto space-y-8">
+
+      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold font-display text-foreground">Task Manager</h1>
-          <p className="text-muted-foreground mt-1">Manage and track your academic assignments.</p>
+          <h1 className="text-3xl font-bold font-display text-white">
+            Task Manager
+          </h1>
+          <p className="text-white mt-1">
+            Manage and track your academic assignments.
+          </p>
         </div>
+
         <Button onClick={handleCreate} className="rounded-xl shadow-md hover-elevate">
           <Plus className="mr-2 h-4 w-4" /> Add Task
         </Button>
       </div>
 
+      {/* Filter Tabs */}
       <div className="flex items-center justify-between">
         <Tabs value={filter} onValueChange={(v) => setFilter(v as any)} className="w-[400px]">
           <TabsList className="grid w-full grid-cols-3 bg-muted/50 p-1 rounded-xl">
@@ -82,134 +98,158 @@ export default function TasksPage() {
         </Tabs>
       </div>
 
+      {/* Task Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredTasks.length === 0 ? (
           <div className="col-span-full py-16 text-center border border-dashed border-border/60 rounded-2xl bg-muted/20">
-            <CheckSquareIcon className="h-12 w-12 mx-auto text-muted-foreground/50 mb-3" />
-            <h3 className="text-lg font-medium text-foreground">No tasks found</h3>
-            <p className="text-muted-foreground">You don't have any {filter !== "All" ? filter.toLowerCase() : ""} tasks right now.</p>
+            <CheckSquareIcon className="h-12 w-12 mx-auto text-white mb-3" />
+            <h3 className="text-lg font-medium text-white">No tasks found</h3>
+            <p className="text-white">
+              You don't have any {filter !== "All" ? filter.toLowerCase() : ""} tasks right now.
+            </p>
           </div>
         ) : (
           filteredTasks.map(task => (
-            <div 
-              key={task.id} 
+            <div
+              key={task.id}
               className={`bg-card rounded-2xl p-5 border shadow-sm transition-all duration-300 hover:shadow-md ${
-                task.status === "Completed" ? "opacity-70 border-border/50 bg-muted/30" : "border-border/80"
+                task.status === "Completed"
+                  ? "opacity-70 border-border/50 bg-muted/30"
+                  : "border-border/80"
               }`}
             >
+
+              {/* Title */}
               <div className="flex items-start justify-between mb-3">
-                <div 
+
+                <div
                   className="flex items-start gap-3 cursor-pointer group"
-                  onClick={() => handleToggleStatus(task)}
-                >
+                  onClick={() => {
+                    if (task.status !== "Completed") {
+                      handleToggleStatus(task);
+                    }}}>
+
                   <div className="mt-0.5">
                     {task.status === "Completed" ? (
                       <CheckCircle2 className="h-5 w-5 text-emerald-500 transition-transform group-hover:scale-110" />
                     ) : (
-                      <Circle className="h-5 w-5 text-muted-foreground transition-transform group-hover:scale-110" />
+                      <Circle className="h-5 w-5 text-black transition-transform group-hover:scale-110" />
                     )}
                   </div>
+
                   <div>
-                    <h3 className={`font-semibold text-lg leading-tight ${task.status === "Completed" ? "line-through text-muted-foreground" : "text-foreground"}`}>
+                    <h3 className={`font-semibold text-lg leading-tight ${
+                      task.status === "Completed"
+                        ? "line-through text-gray-500"
+                        : "text-black"
+                    }`}>
                       {task.title}
                     </h3>
                   </div>
+
                 </div>
-                
+
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 -mr-2 text-muted-foreground">
+                    <Button variant="ghost" size="icon" className="h-8 w-8 -mr-2 text-black">
                       <MoreHorizontal className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
+
                   <DropdownMenuContent align="end" className="w-40 rounded-xl">
                     <DropdownMenuItem onClick={() => handleEdit(task)}>
                       <Pencil className="mr-2 h-4 w-4" /> Edit
                     </DropdownMenuItem>
-                    <DropdownMenuItem 
-                      className="text-destructive focus:text-destructive"
+
+                    <DropdownMenuItem
+                      className="text-red-500"
                       onClick={() => setDeleteId(task.id)}
                     >
                       <Trash2 className="mr-2 h-4 w-4" /> Delete
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
+
               </div>
 
+              {/* Description */}
               {task.description && (
-                <p className="text-sm text-muted-foreground line-clamp-2 mb-4 ml-8">
+                <p className="text-sm text-black line-clamp-2 mb-4 ml-8">
                   {task.description}
                 </p>
               )}
 
+              {/* Tags */}
               <div className="ml-8 mt-4 flex flex-wrap items-center gap-2">
-                <Badge variant="secondary" className="rounded-md font-normal text-xs bg-primary/5 text-primary hover:bg-primary/10 border-none">
-                  <BookOpen className="mr-1.5 h-3 w-3" /> {task.subject}
+
+                <Badge className="rounded-md font-normal text-xs bg-primary/5 text-primary border-none">
+                  <BookOpen className="mr-1.5 h-3 w-3" />
+                  {task.subject}
                 </Badge>
-                <Badge variant="outline" className="rounded-md font-normal text-xs text-muted-foreground">
-                  <Clock className="mr-1.5 h-3 w-3" /> {format(new Date(task.deadline), "MMM d")}
+
+                <Badge variant="outline" className="rounded-md font-normal text-xs text-black">
+                  <Clock className="mr-1.5 h-3 w-3" />
+                  {format(new Date(task.deadline), "MMM d")}
                 </Badge>
+
                 {task.priority === "High" && (
                   <Badge variant="destructive" className="rounded-md font-medium text-xs">
                     High Priority
                   </Badge>
                 )}
+
               </div>
+
             </div>
           ))
         )}
       </div>
 
-      <TaskDialog 
-        open={dialogOpen} 
-        onOpenChange={setDialogOpen} 
-        task={selectedTask} 
+      {/* Dialog */}
+      <TaskDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        task={selectedTask}
       />
 
+      {/* Delete confirmation */}
       <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
         <AlertDialogContent className="rounded-2xl">
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete this task
-              from your planner.
+              This will permanently delete this task.
             </AlertDialogDescription>
           </AlertDialogHeader>
+
           <AlertDialogFooter>
             <AlertDialogCancel className="rounded-xl">Cancel</AlertDialogCancel>
-            <AlertDialogAction 
+
+            <AlertDialogAction
               onClick={() => {
                 if (deleteId) deleteTask.mutate(deleteId);
                 setDeleteId(null);
               }}
-              className="rounded-xl bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              className="rounded-xl bg-destructive text-white hover:bg-destructive/90"
             >
               Delete
             </AlertDialogAction>
+
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
     </div>
   );
 }
 
-// Icon helper
 function CheckSquareIcon(props: any) {
   return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+      viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+      strokeLinecap="round" strokeLinejoin="round">
       <polyline points="9 11 12 14 22 4" />
       <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
     </svg>
-  )
+  );
 }
